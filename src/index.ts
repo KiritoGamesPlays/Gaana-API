@@ -12,28 +12,26 @@ import { errorHandler, logger as customLogger } from './middleware/index.js'
 import router from './routes/index.js'
 
 /**
- * Main Hono application instance.
- * All routes are prefixed with `/api` base path.
- *
- * @constant
+ * API app with base path /api
+ * Contains all API endpoints
  */
-const app = new Hono().basePath('/api')
+const apiApp = new Hono()
 
-// Global middleware - applied to all routes
-app.use('*', cors())
-app.use('*', logger())
-app.use('*', prettyJSON())
-app.use('*', customLogger)
-app.use('*', errorHandler)
+// Global middleware - applied to all API routes
+apiApp.use('*', cors())
+apiApp.use('*', logger())
+apiApp.use('*', prettyJSON())
+apiApp.use('*', customLogger)
+apiApp.use('*', errorHandler)
 
 /**
  * Root endpoint - API information and documentation.
  * Returns API version, status, and available endpoints.
  *
- * @route GET /
+ * @route GET /api
  * @returns {Object} API information object
  */
-app.get('/', (c) => {
+apiApp.get('/', (c) => {
   return c.json({
     message: '🎵 Gaana API',
     version: '1.0.0',
@@ -68,11 +66,62 @@ app.get('/', (c) => {
 })
 
 // Register all REST API routes
-app.route('', router)
+apiApp.route('', router)
 
 /**
- * 404 Not Found handler.
+ * 404 Not Found handler for API routes.
  * Returns a standardized error response for unmatched routes.
+ *
+ * @param {Context} ctx - Hono context object
+ * @returns {Response} JSON error response with 404 status
+ */
+apiApp.notFound((ctx) => {
+  return ctx.json(
+    {
+      success: false,
+      error: 'Not found - check API documentation',
+      timestamp: new Date()
+    },
+    404
+  )
+})
+
+/**
+ * Main application instance.
+ * Handles root endpoint and mounts API app at /api
+ */
+const app = new Hono()
+
+// Global middleware for root app
+app.use('*', cors())
+app.use('*', logger())
+app.use('*', prettyJSON())
+
+/**
+ * Root endpoint handler.
+ * Shows API information and redirects users to /api
+ *
+ * @route GET /
+ * @returns {Object} Root endpoint information
+ */
+app.get('/', (c) => {
+  return c.json({
+    message: '🎵 Gaana API',
+    version: '1.0.0',
+    status: 'running',
+    documentation: 'https://github.com/notdeltaxd/Gaana-API',
+    note: 'All API endpoints are available at /api',
+    quickStart: 'Visit /api to see all available endpoints',
+    example: 'GET /api/search?q=despacito&limit=10'
+  })
+})
+
+// Mount API app at /api
+app.route('/api', apiApp)
+
+/**
+ * 404 Not Found handler for root app.
+ * Returns a helpful message directing users to /api
  *
  * @param {Context} ctx - Hono context object
  * @returns {Response} JSON error response with 404 status
@@ -81,7 +130,9 @@ app.notFound((ctx) => {
   return ctx.json(
     {
       success: false,
-      error: 'Not found - check API documentation',
+      error: 'Not found - All API endpoints are available at /api',
+      documentation: 'https://github.com/notdeltaxd/Gaana-API',
+      example: 'GET /api/search?q=despacito',
       timestamp: new Date()
     },
     404
