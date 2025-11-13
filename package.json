@@ -1,44 +1,44 @@
 {
-	"name": "gaana-api",
-	"version": "2.0.0",
-	"description": "Production-ready Gaana API built with Bun, Hono & TypeScript",
-	"type": "module",
-	"main": "dist/index.js",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/yourusername/gaana-api.git"
-	},
-	"keywords": [
-		"gaana",
-		"api",
-		"music",
-		"streaming",
-		"hono",
-		"bun",
-		"typescript",
-		"rest-api"
-	],
-	"author": "Your Name",
-	"license": "MIT",
-	"scripts": {
-		"dev": "bun run --hot src/index.ts",
-		"build": "tsc",
-		"start": "bun run dist/index.js",
-		"test": "vitest",
-		"test:coverage": "vitest --coverage",
-		"lint": "tsc --noEmit",
-		"format": "prettier --write \"src/**/*.ts\""
-	},
-	"dependencies": {
-		"@hono/node-server": "^1.19.6",
-		"hono": "^4.10.5",
-		"zod": "^4.1.12"
-	},
-	"devDependencies": {
-		"@types/bun": "^1.3.2",
-		"@types/node": "^24.10.1",
-		"prettier": "^3.6.2",
-		"typescript": "^5.9.3",
-		"vitest": "^4.0.8"
-	}
+  "name": "gaana-api",
+  "version": "2.0.0",
+  "description": "Production-ready Gaana API built with Bun, Hono & TypeScript",
+  "type": "module",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/notdeltaxd/Gaana-API.git"
+  },
+  "keywords": [
+    "gaana",
+    "api",
+    "music",
+    "streaming",
+    "hono",
+    "bun",
+    "typescript",
+    "rest-api"
+  ],
+  "author": "notdeltaxd",
+  "license": "MIT",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "build": "tsc",
+    "start": "bun run dist/index.js",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "lint": "tsc --noEmit",
+    "format": "prettier --write \"src/**/*.ts\""
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.6",
+    "hono": "^4.10.5",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.2",
+    "@types/node": "^24.10.1",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.8"
+  }
 }

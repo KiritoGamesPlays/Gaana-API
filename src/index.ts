@@ -38,7 +38,7 @@ app.get('/', (c) => {
     message: '🎵 Gaana API',
     version: '2.0.0',
     status: 'running',
-    documentation: 'https://github.com/yourusername/gaana-api',
+    documentation: 'https://github.com/notdeltaxd/Gaana-API',
     endpoints: {
       search: {
         global: 'GET /api/search?q=query&limit=10',
