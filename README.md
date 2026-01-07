@@ -16,6 +16,7 @@ A REST API wrapper for **Gaana music streaming**, built with **Hono**, **Bun**, 
 - ✅ **Unified Search** - Search across all content types (songs, albums, playlists, artists)
 - ✅ **RESTful Endpoints** - Clean, standard REST API design
 - ✅ **Detailed Info** - Full metadata for songs, albums, playlists, and artists
+- ✅ **Stream URLs** - Get decrypted HLS stream URLs for tracks
 - ✅ **URL Support** - Accept both seokeys and full Gaana URLs for detail endpoints
 - ✅ **Trending & Charts** - Get trending tracks and top charts
 - ✅ **New Releases** - Browse new releases by language
@@ -148,12 +149,11 @@ curl "http://localhost:3000/api/songs?url=https://gaana.com/song/manjha"
 ```json
 {
   "seokey": "...",
+  "track_id": "...",
   "title": "...",
   "artists": "...",
   "album": "...",
   "duration": 0,
-  "play_count": 0,
-  "favorite_count": 0,
   "language": "...",
   "is_explicit": false,
   "artworkUrl": "..."
@@ -270,6 +270,43 @@ Get new releases (songs and albums).
   "timestamp": "..."
 }
 ```
+
+### 🎧 Stream URL
+
+**GET** `/api/stream/:trackId` or `GET /api/stream?track_id=...`
+
+Get decrypted HLS stream URL for a track by its track ID.
+
+**Query Parameters:**
+
+- `track_id` (required if not using path param) - Numeric track ID
+- `quality` (optional) - Audio quality: `low`, `medium`, `high` (default: `high`)
+
+**Examples:**
+
+```bash
+# Path parameter
+curl "http://localhost:3000/api/stream/29797868"
+
+# Query parameter
+curl "http://localhost:3000/api/stream?track_id=29797868"
+
+# With quality
+curl "http://localhost:3000/api/stream/29797868?quality=medium"
+```
+
+**Response:**
+
+```json
+{
+  "quality": "high",
+  "bitRate": "128",
+  "url": "https://vodhlsgaana-ebw.akamaized.net/hls/.../128.mp4.master.m3u8?hdnts=...",
+  "format": "mp4_aac"
+}
+```
+
+> **Note:** The `track_id` can be obtained from the song details endpoint (`/api/songs/:seokey`). Song details also include a `media_urls` array with the decrypted stream URL.
 
 ### 🏥 Health
 

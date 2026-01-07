@@ -5,6 +5,7 @@
  * - Search endpoints (type-specific and global)
  * - Resource detail endpoints (songs, albums, playlists, artists)
  * - Browse endpoints (trending, charts, new releases)
+ * - Stream URL endpoint
  *
  * Route order matters: more specific routes must come before generic ones.
  * @module routes/index
@@ -24,6 +25,7 @@ import { handleTrending } from '../handlers/trending.js'
 import { handleCharts } from '../handlers/charts.js'
 import { handleNewReleases } from '../handlers/newreleases.js'
 import { handleHealth } from '../handlers/health.js'
+import { handleGetStream } from '../handlers/stream.js'
 
 const router = new Hono()
 
@@ -77,4 +79,13 @@ router.get('/trending', handleTrending)
 router.get('/charts', handleCharts)
 router.get('/new-releases', handleNewReleases)
 
+// Stream URL endpoint - get decrypted HLS stream URL by track ID
+// Usage:
+//   GET /api/stream/29797868
+//   GET /api/stream?track_id=29797868
+//   GET /api/stream/29797868?quality=medium
+router.get('/stream', handleGetStream)
+router.get('/stream/:trackId', handleGetStream)
+
 export default router
+
