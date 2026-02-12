@@ -28,7 +28,7 @@ export default handle(app)
 
 // Run local development server when not on Vercel
 if (!process.env.VERCEL) {
-  const port = parseInt(process.env.PORT || '9005')
+  const port = parseInt('9005')
   serve(
     {
       fetch: app.fetch,
